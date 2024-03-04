@@ -1,0 +1,7 @@
+fix the styling of login and signup page
+add the user and initialize the user details before redirecting user to login page
+after login details have been authenticated, get the userID from db and store it in a global variable
+get the overall_progress and {module_name: questions_completed} info of the user from db in modules view
+get the module id based on what is clicked using ajax in modules template
+get {mod_name: question_title} and question details of the selected question in POST
+get {mod_name: question_title} and question details of first question in GET
