@@ -14,8 +14,6 @@ connection = mysql.connector.connect(
 
 cursor = connection.cursor()
 
-userID = 0
-
 # Create your views here.
 def home(request):
   return render(request,'home.html')
@@ -30,8 +28,9 @@ def login(request):
       if user:
         auth_login(request, user)
         getUserid = f"select UserID from users where username = '{username}'"
-        result = cursor.execute(getUserid)
-        userID = result[0][0] if result else None
+        cursor.execute(getUserid)
+        result = cursor.fetchall()
+        request.session["userID"] = result[0][0] if result else None
         return redirect('modules')
   else:
     form = LoginForm()
@@ -48,7 +47,6 @@ def signup(request):
       password = form.cleaned_data.get('password2')
       add_user = f"INSERT INTO users (Username,Email,PasswordHash) values ('{username}','{email}','{password}')"
       cursor.execute(add_user)
-      connection.commit()
       return redirect('login')
   else:
     form = SignupForm()
@@ -59,8 +57,15 @@ def logout(request):
   return redirect('login')
 
 def modules(request):
-  # get the {modID: moduleName, completedQuestions} from db
-  return render(request, 'modules.html')
+  userID = request.session.get('userID')
+  # get the {modID: moduleName, completedQuestions, progressPercentage} from db
+  getUserModuleProgress = f"select A.ModuleID,A.Description,B.CompletedQuestions,B.TotalQuestions,B.ProgressPercentage from modules A,usermoduleprogress B where A.ModuleID = B.ModuleID and UserID = {userID}"
+  cursor.execute(getUserModuleProgress)
+  result = cursor.fetchall()
+  # Convert list of tuples to list of dictionaries
+  columns = [col[0] for col in cursor.description]  # Get column names
+  result_dicts = [dict(zip(columns, row)) for row in result]
+  return render(request, 'modules.html', {'modulesData': result_dicts})
 
 def question(request):
   return render(request, 'question.html')
