@@ -9,8 +9,8 @@
   </h1>
 
   <div class="mb-2 text-sm text-slate-50">
-    <span class="font-extrabold">35</span> of
-    <span class="font-extrabold">100</span> Complete. (35%)
+    <span class="font-extrabold">{{ allModulesProgress.complete }}</span> of
+    <span class="font-extrabold">{{ allModulesProgress.total }}</span> Complete. ({{ allModulesProgress.progress }}%)
   </div>
 
   <div class="w-[40%] rounded-full h-2.5 bg-gray-500">
@@ -47,7 +47,7 @@
             <div class="w-[100%] rounded-full h-2.5 bg-gray-500">
               <div
                 class="bg-gradient-to-br from-white via-slate-50 to-gray-100 h-2.5 rounded-full"
-                style="width: 60%"
+                style="width: {{ module.ProgressPercentage }}%"
               ></div>
               <p class="text-xs text-end mt-1 text-slate-100">{{ module.ProgressPercentage }}% Completed</p>
             </div>
@@ -57,6 +57,5 @@
     </div>
   </a>
   {% endfor %}
-
 </section>
 {% endblock content %}

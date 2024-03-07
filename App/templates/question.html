@@ -1,48 +1,26 @@
-{% extends 'base.html' %} 
-
-{% block content %}
-<section>
-  <button
-    data-drawer-target="default-sidebar"
-    data-drawer-toggle="default-sidebar"
-    aria-controls="default-sidebar"
-    type="button"
-    class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-  >
-    <span class="sr-only">Open sidebar</span>
-    <svg
-      class="w-6 h-6"
-      aria-hidden="true"
-      fill="currentColor"
-      viewBox="0 0 20 20"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        clip-rule="evenodd"
-        fill-rule="evenodd"
-        d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
-      ></path>
-    </svg>
-  </button>
+{% extends 'base.html' %} {% block content %}
+<section id="sidebar">
   <aside
     id="default-sidebar"
-    class="fixed left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+    class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
     aria-label="Sidenav"
   >
     <div
       class="overflow-y-auto py-5 px-3 h-full bg-[#0a0a0b] border-r border-gray-700 mt-[5.6rem]"
     >
       <ul class="space-y-2">
+        {% for item in sideBarData %}
         <li>
           <button
             type="button"
-            class="flex items-center p-2 w-full text-base font-normal text-gray-100 rounded-lg transition duration-75 group hover:bg-gray-600"
-            aria-controls="dropdown-pages"
-            data-collapse-toggle="dropdown-pages"
+            class="flex flex-wrap items-center p-2 w-full text-base font-normal text-gray-100 rounded-lg transition duration-75 group hover:bg-gray-600 toggle-dropdown"
+            aria-expanded="false"
+            aria-haspopup="true"
           >
-            <span class="text-white font-bold">1. </span>
-            <span class="flex-1 ml-3 text-left whitespace-nowrap"
-              >SELECT basics</span
+            <span class="text-white font-bold mr-2">{{ item.ModuleID }}. </span>
+            <span
+              class="flex-1 ml-3 text-left whitespace-nowrap overflow-hidden overflow-ellipsis"
+              >{{ item.Description }}</span
             >
             <svg
               aria-hidden="true"
@@ -58,80 +36,20 @@
               ></path>
             </svg>
           </button>
-          <ul id="dropdown-pages" class="py-2 space-y-2">
+          <ul class="py-2 space-y-2 hidden" aria-orientation="vertical" id="dropdown-pages">
+            {% for i in item.QuestionID %}
             <li>
               <a
-                href="#"
+                id="{{ i }}"
+                href="{% url 'question' %}"
                 class="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-100 bg-gray-600 rounded-lg transition duration-75 group hover:bg-gray-600"
-                >Question 1</a
+                >Question {{ i }}</a
               >
             </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-100 rounded-lg transition duration-75 group hover:bg-gray-600"
-                >Question 2</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-100 rounded-lg transition duration-75 group hover:bg-gray-600"
-                >Question 3</a
-              >
-            </li>
+            {% endfor %}
           </ul>
         </li>
-        <li>
-          <button
-            type="button"
-            class="flex items-center p-2 w-full text-base font-normal text-gray-100 rounded-lg transition duration-75 group hover:bg-gray-600"
-            aria-controls="dropdown-sum"
-            data-collapse-toggle="dropdown-sum"
-          >
-            <span class="text-white font-bold">2. </span>
-            <span class="flex-1 ml-3 text-left whitespace-nowrap"
-              >SUM and COUNT</span
-            >
-            <svg
-              aria-hidden="true"
-              class="w-6 h-6"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-          </button>
-
-          <ul id="dropdown-sum" class="hidden py-2 space-y-2">
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-100 rounded-lg transition duration-75 group hover:bg-gray-600"
-                >Question 1</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-100 rounded-lg transition duration-75 group hover:bg-gray-600"
-                >Question 2</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-100 rounded-lg transition duration-75 group hover:bg-gray-600"
-                >Question 3</a
-              >
-            </li>
-          </ul>
-        </li>
+        {% endfor %}
       </ul>
     </div>
   </aside>
@@ -141,12 +59,13 @@
   <h1
     class="mb-5 text-4xl font-extrabold bg-gradient-to-br from-white via-slate-200 to-slate-500 bg-clip-text text-transparent"
   >
-    SELECT basics
+    {{ questionInfo.Description }}
   </h1>
 
   <div class="mb-2 text-sm text-slate-50">
-    <span class="font-extrabold">6</span> of
-    <span class="font-extrabold">10</span> Complete. (60%)
+    <span class="font-extrabold">{{ questionInfo.CompletedQuestions }}</span> of
+    <span class="font-extrabold">{{ questionInfo.TotalQuestions }}</span>
+    Complete. ({{ questionInfo.ProgressPercentage }}%)
   </div>
 
   <div class="w-[40%] rounded-full h-2.5 bg-gray-500 mb-10">
@@ -224,11 +143,10 @@
     >
       <p class="text-lg text-gray-300 leading-normal tracking-normal">
         <span class="text-2xl font-bold text-gray-50 mb-1 tracking-wide"
-          >1.</span
+          >{{ questionInfo.QuestionID }}.</span
         >
         <br />
-        The example uses a WHERE clause to display the population of 'France'.
-        Keep in mind that strings should be enclosed in 'single quotes'.
+        {{ questionInfo.QuestionText }}
       </p>
       <textarea
         class="w-full h-[50%] rounded-lg mt-5 mb-4 p-4 bg-slate-200 text-sm"
@@ -270,4 +188,68 @@
     </div>
   </div>
 </section>
+
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous"
+></script>
+<script>
+  // Function to initialize sidebar behavior
+  function initializeSidebar() {
+    // Get the sidebar element
+    var sidebar = document.getElementById("sidebar");
+
+    // Attach click event listener to the sidebar
+    sidebar.addEventListener("click", function (event) {
+      // Get the clicked element
+      var target = event.target;
+
+      // Check if the clicked element is a module button
+      if (target.classList.contains("toggle-dropdown")) {
+        // Toggle the visibility of the dropdown menu associated with the clicked button
+        var dropdownMenu = target.nextElementSibling;
+        dropdownMenu.classList.toggle("hidden");
+
+        // Toggle the aria-expanded attribute
+        var isExpanded = target.getAttribute("aria-expanded") === "true";
+        target.setAttribute("aria-expanded", !isExpanded);
+      }
+
+      // Check if the clicked element is a sidebar link
+      if (target.closest("#dropdown-pages a")) {
+        // Prevent the default behavior of the link (e.g., navigating to a new page)
+        event.preventDefault();
+        event.stopPropagation(); // Stop event propagation
+
+        // Get the QuestionID from the link's ID attribute
+        var questionID = target.id;
+
+        // Perform AJAX request
+        $.ajax({
+          type: "GET",
+          url: "/question",
+          data: { questionID: questionID },
+          success: function (response) {
+            // Update the content of the page with the response
+            document.querySelector("section").innerHTML = response;
+
+            // Reinitialize sidebar behavior
+            initializeSidebar();
+          },
+          error: function (xhr, status, error) {
+            console.error(error);
+          },
+        });
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // Initialize sidebar behavior
+    initializeSidebar();
+  });
+</script>
+
+
 {% endblock content %}
